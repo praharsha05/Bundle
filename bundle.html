@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wall of Portfolios - Clone</title>
+    <style>
+        /* CSS STYLING */
+        :root {
+            --bg-color: #0b0c10;
+            --card-bg: #1f2833;
+            --text-main: #ffffff;
+            --text-muted: #c5c6c7;
+            --accent-color: #66fcf1;
+            --accent-dim: #45a29e;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        header {
+            max-width: 1200px;
+            margin: 0 auto 3rem auto;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 800;
+        }
+
+        header h1 span {
+            color: var(--accent-color);
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Controls Section */
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .search-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 0.8rem 1.2rem;
+            border-radius: 30px;
+            border: 1px solid #333;
+            background-color: #121212;
+            color: var(--text-main);
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-box:focus {
+            border-color: var(--accent-color);
+        }
+
+        .filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background-color: #1a1a1a;
+            color: var(--text-muted);
+            border: 1px solid #333;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .filter-btn.active, .filter-btn:hover {
+            background-color: var(--accent-color);
+            color: #000;
+            border-color: var(--accent-color);
+        }
+
+        /* Portfolio Grid */
+        .portfolio-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Portfolio Cards */
+        .portfolio-card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #2a2a2a;
+            transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .portfolio-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-dim);
+        }
+
+        .card-image {
+            width: 100%;
+            height: 200px;
+            background-color: #2b3a4a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            position: relative;
+        }
+
+        /* Placeholder graphic if images are missing */
+        .card-image::before {
+            content: "✨ Portfolio Preview";
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .card-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .designer-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .designer-role {
+            font-size: 0.9rem;
+            color: var(--accent-color);
+            margin-bottom: 0.75rem;
+        }
+
+        .meta-tags {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-top: auto;
+        }
+
+        .tag {
+            background-color: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><span>Wall</span> of Portfolios</h1>
+        <p>Explore handpicked portfolios & design systems from top talent.</p>
+        
+        <div class="controls">
+            <input type="text" class="search-box" id="searchBar" placeholder="Search by name, role, or company...">
+            <div class="filters">
+                <button class="filter-btn active" onclick="filterCategory('All')">All Companies</button>
+                <button class="filter-btn" onclick="filterCategory('Google')">Google</button>
+                <button class="filter-btn" onclick="filterCategory('Microsoft')">Microsoft</button>
+                <button class="filter-btn" onclick="filterCategory('Zomato')">Zomato</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="portfolio-grid" id="portfolioGrid">
+        <!-- Dynamic portfolio items go here via JS -->
+    </main>
+
+    <script>
+        // DATA OBJECT MATCHING SYSTEM RECORDS
+        const portfolios = [
+            { name: "Sneha Tamhankar", role: "Product Designer", company: "Ultrahuman", tags: ["Minimal", "3 Years Exp"], url: "#" },
+            { name: "Akshay Mehta", role: "Senior Product Designer", company: "Zomato", tags: ["Minimal", "4 Years Exp"], url: "#" },
+            { name: "Eemon Roy", role: "Product Designer", company: "Microsoft", tags: ["Creative", "6 Years Exp"], url: "#" },
+            { name: "Dharmesh Nayak", role: "Senior Product Designer", company: "Zomato", tags: ["Dark Theme", "6 Years Exp"], url: "#" },
+            { name: "Edin Le", role: "Product Design Intern", company: "Google", tags: ["Dark Theme", "Intern"], url: "#" },
+            { name: "Sujit Kumar", role: "UX Designer 3", company: "Google", tags: ["Bento Grids", "8 Years Exp"], url: "#" }
+        ];
+
+        const grid = document.getElementById('portfolioGrid');
+        const searchBar = document.getElementById('searchBar');
+        let currentFilter = 'All';
+
+        function renderPortfolios() {
+            grid.innerHTML = '';
+            const searchContext = searchBar.value.toLowerCase();
+
+            const filtered = portfolios.filter(p => {
+                const matchesFilter = currentFilter === 'All' || p.company === currentFilter;
+                const matchesSearch = p.name.toLowerCase().includes(searchContext) || 
+                                      p.role.toLowerCase().includes(searchContext) || 
+                                      p.company.toLowerCase().includes(searchContext);
+                return matchesFilter && matchesSearch;
+            });
+
+            if(filtered.length === 0) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted);">No exact matches found. Try adjusting your filters.</p>`;
+                return;
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('a');
+                card.className = 'portfolio-card';
+                card.href = p.url;
+                
+                card.innerHTML = `
+                    <div class="card-image"></div>
+                    <div class="card-info">
+                        <div class="designer-name">${p.name}</div>
+                        <div class="designer-role">${p.role} • ${p.company}</div>
+                        <div class="meta-tags">
+                            ${p.tags.map(t => `<span class="tag">\${t}</span>`).join('')}
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function filterCategory(category) {
+            currentFilter = category;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText.includes(category));
+            });
+            renderPortfolios();
+        }
+
+        searchBar.addEventListener('input', renderPortfolios);
+        
+        // Initial Draw
+        renderPortfolios();
+    </script>
+</body>
+</html>
